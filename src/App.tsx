@@ -1,9 +1,13 @@
 import React from 'react';
+import {BrowserRouter} from 'react-router-dom' //roteamento de aplicações web
+import { Routes } from './routes';
 
-function App() {
+const App: React.FC = () => { //FC: function component
   return (
-    <h1>Olah dev</h1>
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   );
-}
+};
 
-export default App;
+export default App; //exportando como default torna possível mudar o nome posteriormente
