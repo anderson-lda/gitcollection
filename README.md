@@ -10,3 +10,5 @@ npm install polished (efeitos de cores)
 fonte roboto obtida em: https://fonts.google.com/specimen/Roboto
 ícones:
 npm install react-icons
+ - para consumir API:
+ npm install axios
