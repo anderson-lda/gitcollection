@@ -14,9 +14,19 @@ interface GithubRepository {
 }
 
 export const Dashboard: React.FC = () => { //FC: function component
-  const [repos, setRepos] = React.useState<GithubRepository[]>([]) //estado criado para armazenar informação
+  const [repos, setRepos] = React.useState<GithubRepository[]>(() => {
+    const storageRepos = localStorage.getItem('@GitcCollection:repositories');
+    if (storageRepos) {
+      return JSON.parse(storageRepos);
+    }
+    return [];
+  }); //estado criado para armazenar informação
   const [newRepo, setNewRepo] = React.useState('')
   const [inputError, setInputError] = React.useState('');
+
+  React.useEffect(() => {
+    localStorage.setItem('@GitcCollection:repositories',JSON.stringify(repos))
+  },[repos]);//[] vazio implica que a função só será executada quando o Dashboard for criado
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>): void {
     setNewRepo(event.target.value);
