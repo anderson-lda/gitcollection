@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link, useRouteMatch} from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { Header, Issues, RepoInfo } from './styles';
 import logo from '../../assets/logo.svg'
 import {FiChevronLeft, FiChevronRight} from 'react-icons/fi'
 import {api} from '../../services/api' //quando não é exportada como default deve-se colocar com chaves
 
-interface RepositoryParams {
+type RepositoryParams = {
   repository: string;
 }
 
@@ -31,14 +31,14 @@ interface GithubIssue {
 }
 
 export const Repo: React.FC = () => { //FC: function component
-  const { params } = useRouteMatch<RepositoryParams>();
-  const [repository, setRepository] = React.useState<GithubRepository | null>(null);
+  const { repository } = useParams<RepositoryParams>();
+  const [rep, setRep] = React.useState<GithubRepository | null>(null);
   const [issues, setIssues] = React.useState<GithubIssue[]>([]);
 
   React.useEffect(() => {
-    api.get(`repos/${params.repository}`).then(response => setRepository(response.data))
-    api.get(`repos/${params.repository}/issues`).then(response => setIssues(response.data))
-  }, [params.repository]);
+    api.get(`repos/${repository}`).then(response => setRep(response.data))
+    api.get(`repos/${repository}/issues`).then(response => setIssues(response.data))
+  }, [repository]);
 
   return (
     <>
@@ -49,26 +49,26 @@ export const Repo: React.FC = () => { //FC: function component
           Voltar
         </Link>
       </Header>
-      {repository && (//só é exibido se houver repositório
+      {rep && (//só é exibido se houver repositório
       <RepoInfo>
         <header>
-          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
+          <img src={rep.owner.avatar_url} alt={rep.owner.login} />
           <div>
-            <strong>{repository.full_name}</strong>
-            <p>{repository.description}</p>
+            <strong>{rep.full_name}</strong>
+            <p>{rep.description}</p>
           </div>
         </header>
         <ul>
           <li>
-            <strong>{repository.stargazers_count}</strong>
+            <strong>{rep.stargazers_count}</strong>
             <span>Stars</span>
           </li>
           <li>
-            <strong>{repository.forks_count}</strong>
+            <strong>{rep.forks_count}</strong>
             <span>Forks</span>
           </li>
           <li>
-            <strong>{repository.open_issues_count}</strong>
+            <strong>{rep.open_issues_count}</strong>
             <span>Issues Abertas</span>
           </li>
         </ul>

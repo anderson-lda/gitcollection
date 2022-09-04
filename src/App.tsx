@@ -1,13 +1,13 @@
 import React from 'react';
 import {BrowserRouter} from 'react-router-dom' //roteamento de aplicações web
-import { Routes } from './routes';
+import { Rotas } from './routes';
 import { GlobalStyle } from './styles/global';
 
 const App: React.FC = () => { //FC: function component
   return (
     <>
       <BrowserRouter>
-        <Routes />
+        <Rotas />
       </BrowserRouter>
       <GlobalStyle />
     </>
