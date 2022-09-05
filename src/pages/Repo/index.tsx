@@ -30,7 +30,7 @@ interface GithubIssue {
   }
 }
 
-export const Repo: React.FC = () => { //FC: function component
+const Repo: React.FC = () => { //FC: function component
   const { repository } = useParams<RepositoryParams>();
   const [rep, setRep] = React.useState<GithubRepository | null>(null);
   const [issues, setIssues] = React.useState<GithubIssue[]>([]);
@@ -88,3 +88,5 @@ export const Repo: React.FC = () => { //FC: function component
     </>
   );
 };
+
+export default Repo;
