@@ -67,8 +67,8 @@ export const Dashboard: React.FC = () => { //FC: function component
       <Repos>
         {/* Link preserva o SPA, não carregando a página inteira;
             para rotas fora da aplicação, usar 'a' */}
-        {repos.map(repository => (
-          <Link to={`/repositories/${encodeURIComponent(repository.full_name)}`} key={repository.full_name}>
+        {repos.map((repository,index) => (
+          <Link to={`/repositories/${encodeURIComponent(repository.full_name)}`} key={repository.full_name + index}>
             <img src={repository.owner.avatar_url} alt={repository.owner.login} />
             <div>
               <strong>{repository.full_name}</strong>
