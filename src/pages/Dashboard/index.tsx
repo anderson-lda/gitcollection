@@ -24,6 +24,8 @@ export const Dashboard: React.FC = () => { //FC: function component
   }); //estado criado para armazenar informação
   const [newRepo, setNewRepo] = React.useState('')
   const [inputError, setInputError] = React.useState('');
+  //useRef torna possível manipular um elemento a partir dele referenciado
+  const formEl = React.useRef<HTMLFormElement | null>(null); //por ser TS é bom dizer o tipo de elemento a ser referenciado
 
   React.useEffect(() => {
     localStorage.setItem('@GitcCollection:repositories',JSON.stringify(repos))
@@ -39,19 +41,25 @@ export const Dashboard: React.FC = () => { //FC: function component
       setInputError('Informe o username/repositorio')
       return
     }
-    const response = await api.get<GithubRepository>(`repos/${newRepo}`);
+    try{
+      const response = await api.get<GithubRepository>(`repos/${newRepo}`);
 
-    const repositorio = response.data;
+      const repositorio = response.data;
 
-    setRepos([...repos,repositorio]); //...repos pega tudo que já tinha antes no array
-    setNewRepo('');
+      setRepos([...repos,repositorio]); //...repos pega tudo que já tinha antes no array
+      setNewRepo('');
+      formEl.current?.reset();
+      setInputError('')
+    }catch{
+      setInputError('Repositório não encontrado no Github');
+    }
   }
 
   return (
     <>
       <img src={logo} alt="GitCollection" />
       <Title>Catálogo de Repositórios do GitHub</Title>
-      <Form hasError={Boolean(inputError)} onSubmit={handleAddRepo}>
+      <Form ref={formEl} hasError={Boolean(inputError)} onSubmit={handleAddRepo}>
         <input placeholder='username/repository_name' onChange={handleInputChange} />
         <button type='submit'>Buscar</button>
       </Form>
